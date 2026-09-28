@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Gabrielito - Día del Hombre 🏁</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: radial-gradient(circle at center, #121224 0%, #05050a 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Pantalla de Carga - Toyota Supra MK4 */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #05050a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease;
+        }
+        .loader-car {
+            font-size: 55px;
+            animation: driveCar 1.5s infinite linear;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px #ff5500);
+        }
+        @keyframes driveCar {
+            0% { transform: translateX(-100px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100px); opacity: 0; }
+        }
+        .progress-bar-container {
+            width: 250px;
+            height: 8px;
+            background: #222;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #444;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff5500, #ffcc00);
+            box-shadow: 0 0 10px #ff5500;
+            transition: width 0.1s;
+        }
+        #loading-text {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: #ffaa00;
+            text-shadow: 0 0 8px rgba(255,170,0,0.6);
+        }
+
+        /* Contenido Principal */
+        #main-content {
+            display: none;
+            opacity: 0;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            text-align: center;
+            transition: opacity 1s ease;
+        }
+
+        /* Ramo de Flores Azul Marino y Naranja */
+        .bouquet-container {
+            position: relative;
+            margin: 20px 0;
+            width: 280px;
+            height: 290px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 120, 0, 0.2);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+        }
+        .flower {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #1a365d 30%, #0d1b2a 90%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ff9f43;
+            box-shadow: 0 0 10px rgba(26,54,93,0.8);
+            border: 2px solid #2a4365;
+        }
+        .flower.orange {
+            background: radial-gradient(circle, #ff7675 30%, #d63031 90%);
+            color: #ffffff;
+            border: 2px solid #fab1a0;
+            box-shadow: 0 0 10px rgba(214,48,49,0.6);
+        }
+
+        /* Tarjetas de Mensajes */
+        .card {
+            background: rgba(20, 20, 35, 0.85);
+            border: 1px solid rgba(255, 150, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            width: 100%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            display: none;
+            animation: fadeInCard 0.6s ease;
+        }
+        .card.active {
+            display: block;
+        }
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card h2 {
+            color: #ff9f43;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px rgba(255,159,67,0.5);
+        }
+        .card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        /* Botones de Navegación */
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        button {
+            background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(214,48,49,0.4);
+            transition: transform 0.2s, filter 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        /* Botón de Música */
+        #music-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #ff9f43;
+            color: #ff9f43;
+            padding: 8px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="music-toggle" onclick="toggleMusic()">🔊 Música</button>
+
+    <!-- Pantalla de Carga (Toyota Supra MK4) -->
+    <div id="loading-screen">
+        <div class="loader-car" title="Toyota Supra MK4">🏎️💨</div>
+        <div id="loading-text">Cargando la máquina... 0%</div>
+        <div class="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div id="main-content">
+        <h1 style="color: #ff9f43; text-shadow: 0 0 10px rgba(255,159,67,0.6); font-size: 1.5rem; margin-bottom: 5px;">¡Feliz Día del Hombre, Chiche! 🏁</h1>
+        
+        <!-- Ramo de Flores (Azul Marino con toques Naranja y letras CHICHE) -->
+        <div class="bouquet-container">
+            <div class="flower">C</div>
+            <div class="flower orange">H</div>
+            <div class="flower">I</div>
+            <div class="flower">C</div>
+            <div class="flower orange">H</div>
+            <div class="flower">E</div>
+        </div>
+
+        <!-- Tarjetas Interactivas -->
+        <div class="card active" id="card-1">
+            <h2>🏎️ A toda velocidad</h2>
+            <p>Que tu camino esté guiado siempre por Dios, lleno de metas cumplidas y bendiciones en cada curva de la vida. <em>"Encomienda al Señor tu camino, confía en él y él hará" (Salmos 37:5).</em></p>
+        </div>
+
+        <div class="card" id="card-2">
+            <h2>🔥 Una gran amistad</h2>
+            <p>Hoy celebramos los detalles y los momentos, pero sobre todo doy gracias a Dios por poner en mi vida una amistad tan valiosa como la tuya. <em>"En todo tiempo ama el amigo" (Proverbios 17:17).</em></p>
+        </div>
+
+        <div class="card" id="card-3">
+            <h2>🏆 ¡Feliz Día!</h2>
+            <p>Este detalle virtual es para recordarte lo mucho que se aprecia tu amistad. ¡Que pases un día increíble, Chiche!</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevCard()" id="prev-btn" style="display:none;">Anterior</button>
+            <button onclick="nextCard()" id="next-btn">Siguiente 🚀</button>
+        </div>
+    </div>
+
+    <!-- Audio de Fondo -->
+    <audio id="bg-music" loop>
+        <source src="https://actions.google.com/sounds/v1/ambiences/daytime_forest_bonfire.ogg" type="audio/ogg">
+    </audio>
+
+    <script>
+        let width = 0;
+        const loadingBar = document.getElementById('progress-bar');
+        const loadingText = document.getElementById('loading-text');
+        const loadingScreen = document.getElementById('loading-screen');
+        const mainContent = document.getElementById('main-content');
+        const bgMusic = document.getElementById('bg-music');
+
+        let interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainContent.style.display = 'flex';
+                    setTimeout(() => mainContent.style.opacity = '1', 50);
+                    bgMusic.play().catch(e => console.log("Audio play blocked:", e));
+                }, 800);
+            } else {
+                width += 2;
+                loadingBar.style.width = width + '%';
+                loadingText.innerText = `Cargando la máquina... ${width}%`;
+            }
+        }, 30);
+
+        let currentCard = 1;
+        const totalCards = 3;
+
+        function showCard(n) {
+            for (let i = 1; i <= totalCards; i++) {
+                document.getElementById('card-' + i).classList.remove('active');
+            }
+            document.getElementById('card-' + n).classList.add('active');
+
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            prevBtn.style.display = n === 1 ? 'none' : 'block';
+            nextBtn.innerText = n === totalCards ? '¡🏁 Fin!' : 'Siguiente 🚀';
+        }
+
+        function nextCard() {
+            if (currentCard < totalCards) {
+                currentCard++;
+                showCard(currentCard);
+            } else {
+                alert('¡Disfruta mucho tu día, Gabito! TE QUIEROOOOO.');
+            }
+        }
+
+        function prevCard() {
+            if (currentCard > 1) {
+                currentCard--;
+                showCard(currentCard);
+            }
+        }
+
+        let isPlaying = true;
+        function toggleMusic() {
+            const musicBtn = document.getElementById('music-toggle');
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerText = '🔇 Silencioso';
+            } else {
+                bgMusic.play();
+                musicBtn.innerText = '🔊 Música';
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
+
